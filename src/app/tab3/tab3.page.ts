@@ -25,16 +25,15 @@ export class Tab3Page implements OnInit {
 
   constructor(public qrService: QrService, private apiService: ApiService) { }
 
-  async onFabClick() {
-    if (this.isSupported) {
-      // normal qr scan for phone devices
-      this.qrService.scan();
-    } else {
-      // file input for web version
-      this.fileInput.nativeElement.value = '';
-      this.fileInput.nativeElement.click();
-    }
+  scanQr() {
+    this.qrService.scan();
   }
+
+  uploadQr() {
+    this.fileInput.nativeElement.value = '';
+    this.fileInput.nativeElement.click();
+  }
+
 
   ngOnInit() {
     BarcodeScanner.isSupported().then((result) => {

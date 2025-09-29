@@ -120,12 +120,25 @@
   <canvas #canvas style="display:none"></canvas>
 
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="onFabClick()">
+
+  <!-- Floating action button with expandable options -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
       <ion-icon name="scan"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
 
+    <ion-fab-list side="top">
+      <!-- Upload option -->
+      <ion-fab-button (click)="uploadQr()">
+        <ion-icon name="image-outline"></ion-icon>
+      </ion-fab-button>
+
+      <!-- Scan option -->
+      <ion-fab-button (click)="scanQr()">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
   <!-- Show result -->
   <div *ngIf="qrResult" class="ion-padding">
     <h2>QR Result (Game ID)</h2>
