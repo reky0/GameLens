@@ -8,7 +8,24 @@ import { ApiService, GameInfo, Developer, Publisher, Genre } from './api.service
 })
 
 export class QrService {
-  gameInfo: GameInfo | undefined;
+  gameInfo: GameInfo = {
+    id: 0,
+    name: '',
+    metacritic: 0,
+    released: '',
+    background_image: '',
+    background_image_additional: '',
+    rating: 0,
+    rating_top: 5,
+    playtime: 0,
+    reddit_url: '',
+    metacritic_url: '',
+    developers: [],
+    genres: [],
+    publishers: [],
+    parent_achievements_count: 0
+  };
+
   lastValue: string | null = 'aaaaaaaaaaaaaaa';
 
   constructor(private alertController: AlertController,
@@ -20,7 +37,6 @@ export class QrService {
       this.presentAlert();
       return;
     }
-
 
     const result = await BarcodeScanner.scan();
 

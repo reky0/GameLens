@@ -3,20 +3,20 @@
     <!-- <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons> -->
-    <ion-title>{{ qrService.gameInfo?.name || 'Game Info' }}</ion-title>
+    <ion-title>{{ qrService.gameInfo.name || 'Game Info' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="game-info-content">
   <!-- Hero / Banner -->
   <div class="hero"
-    [ngStyle]="{'background-image': 'url(' + (qrService.gameInfo?.background_image || 'assets/img/game-fallback.jpg') + ')'}">
+    [ngStyle]="{'background-image': 'url(' + (qrService.gameInfo.background_image || 'assets/img/game-fallback.jpg') + ')'}">
     <div class="hero-overlay">
       <div class="hero-inner">
-        <h1 class="game-title">{{ qrService.gameInfo?.name }}</h1>
+        <h1 class="game-title">{{ qrService.gameInfo.name }}</h1>
         <div class="meta-row">
-          <ion-badge *ngIf="qrService.gameInfo?.metacritic" color="dark" class="metacritic">
-            MC {{ qrService.gameInfo?.metacritic }}
+          <ion-badge *ngIf="qrService.gameInfo.metacritic" color="dark" class="metacritic">
+            MC {{ qrService.gameInfo.metacritic }}
           </ion-badge>
           <div class="rating-wrap" *ngIf="qrService.gameInfo">
             <div class="stars">
@@ -37,19 +37,19 @@
       <ion-row>
         <ion-col size="12" size-md="8">
           <h2 class="section-title">About</h2>
-          <p><strong>Released:</strong> {{ qrService.gameInfo?.released | date:'longDate' }}</p>
-          <p><ion-icon name="time-outline"></ion-icon> Playtime: <strong>{{ qrService.gameInfo?.playtime }} hrs</strong>
+          <p><strong>Released:</strong> {{ qrService.gameInfo.released | date:'longDate' }}</p>
+          <p><ion-icon name="time-outline"></ion-icon> Playtime: <strong>{{ qrService.gameInfo.playtime }} hrs</strong>
           </p>
 
           <!-- Chips -->
           <div class="chips">
-            <ion-chip *ngFor="let g of qrService.gameInfo?.genres" outline>
+            <ion-chip *ngFor="let g of qrService.gameInfo.genres" outline>
               <ion-label>{{ g.name }}</ion-label>
             </ion-chip>
-            <ion-chip *ngFor="let d of qrService.gameInfo?.developers" color="tertiary">
+            <ion-chip *ngFor="let d of qrService.gameInfo.developers" color="tertiary">
               <ion-label>{{ d.name }}</ion-label>
             </ion-chip>
-            <ion-chip *ngFor="let p of qrService.gameInfo?.publishers" color="medium">
+            <ion-chip *ngFor="let p of qrService.gameInfo.publishers" color="medium">
               <ion-label>{{ p.name }}</ion-label>
             </ion-chip>
           </div>
@@ -57,12 +57,12 @@
           <!-- Links -->
           <h3 class="section-subtitle">Links</h3>
           <div class="link-row">
-            <ion-button size="small" fill="outline" [href]="qrService.gameInfo?.reddit_url" target="_blank"
-              [disabled]="!qrService.gameInfo?.reddit_url">
+            <ion-button size="small" fill="outline" [href]="qrService.gameInfo.reddit_url" target="_blank"
+              [disabled]="!qrService.gameInfo.reddit_url">
               <ion-icon slot="start" name="logo-reddit"></ion-icon> Reddit
             </ion-button>
-            <ion-button size="small" fill="outline" [href]="qrService.gameInfo?.metacritic_url" target="_blank"
-              [disabled]="!qrService.gameInfo?.metacritic_url">
+            <ion-button size="small" fill="outline" [href]="qrService.gameInfo.metacritic_url" target="_blank"
+              [disabled]="!qrService.gameInfo.metacritic_url">
               <ion-icon slot="start" name="globe-outline"></ion-icon> Metacritic
             </ion-button>
           </div>
@@ -72,22 +72,22 @@
         <ion-col size="12" size-md="4">
           <ion-card class="side-card">
             <img
-              [src]="qrService.gameInfo?.background_image_additional || qrService.gameInfo?.background_image || 'assets/img/game-fallback.jpg'"
-              alt="{{ qrService.gameInfo?.name }}" class="side-image" />
+              [src]="qrService.gameInfo.background_image_additional || qrService.gameInfo.background_image || 'assets/img/game-fallback.jpg'"
+              alt="{{ qrService.gameInfo.name }}" class="side-image" />
             <ion-card-content>
               <div class="side-stats">
                 <div class="stat">
                   <ion-icon name="trophy-outline"></ion-icon>
-                  <div><small>Achievements</small><strong>{{ qrService.gameInfo?.parent_achievements_count }}</strong>
+                  <div><small>Achievements</small><strong>{{ qrService.gameInfo.parent_achievements_count }}</strong>
                   </div>
                 </div>
                 <div class="stat">
                   <ion-icon name="people-outline"></ion-icon>
-                  <div><small>Playtime</small><strong>{{ qrService.gameInfo?.playtime }}</strong></div>
+                  <div><small>Playtime</small><strong>{{ qrService.gameInfo.playtime }}</strong></div>
                 </div>
                 <div class="stat">
                   <ion-icon name="ribbon-outline"></ion-icon>
-                  <div><small>Rating</small><strong>{{ qrService.gameInfo?.rating | number:'1.1-2' }}</strong></div>
+                  <div><small>Rating</small><strong>{{ qrService.gameInfo.rating | number:'1.1-2' }}</strong></div>
                 </div>
               </div>
             </ion-card-content>
@@ -97,8 +97,20 @@
     </ion-grid>
   </div>
 
+   <!-- Hidden file input for web fallback -->
+  <input
+    #fileInput
+    type="file"
+    accept="image/*"
+    style="display:none"
+    (change)="onFileChange($event)"
+  />
+
+    <!-- Hidden canvas (used internally for decoding) -->
+  <canvas #canvas style="display:none"></canvas>
+
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="qrService.scan()" [disabled]="!isSupported">
+    <ion-fab-button (click)="onFabClick()">
       <ion-icon name="scan"></ion-icon>
     </ion-fab-button>
   </ion-fab>
