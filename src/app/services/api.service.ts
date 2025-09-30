@@ -5,10 +5,10 @@ import { Injectable } from '@angular/core';
 })
 
 export class ApiService {
-  API_KEY = '176bb2904d7d49f1af901849ba90581e'
+  private token = (window as any).__env?.RAWG_TOKEN;
 
   async searchGame(gameID: number): Promise<GameInfo> {
-    const url = `https://api.rawg.io/api/games/${gameID}?key=${this.API_KEY}`
+    const url = `https://api.rawg.io/api/games/${gameID}?key=${this.token}`
 
     const response = await fetch(url);
     const data = await response.json();
