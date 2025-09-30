@@ -19,9 +19,7 @@
     <!-- Release date -->
     <ion-item>
       <ion-label position="floating">Release Date</ion-label>
-      <ion-datetime
-        presentation="date"
-        [(ngModel)]="qrService.gameInfo.released">
+      <ion-datetime presentation="date" [(ngModel)]="qrService.gameInfo.released">
       </ion-datetime>
     </ion-item>
 
@@ -108,19 +106,10 @@
   </div>
 
   <!-- Hidden file input for web fallback -->
-  <input
-    #fileInput
-    type="file"
-    accept="image/*"
-    style="display:none"
-    (change)="onFileChange($event)"
-  />
+  <input #fileInput type="file" accept="image/*" style="display:none" (change)="onFileChange($event)" />
 
   <!-- Hidden canvas (used internally for decoding) -->
   <canvas #canvas style="display:none"></canvas>
-
-
-
   <!-- Floating action button with expandable options -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
@@ -134,14 +123,18 @@
       </ion-fab-button>
 
       <!-- Scan option -->
-      <ion-fab-button (click)="scanQr()">
-        <ion-icon name="camera-outline"></ion-icon>
-      </ion-fab-button>
+       @if (isSupported) {
+         <ion-fab-button (click)="scanQr()">
+           <ion-icon name="camera-outline"></ion-icon>
+         </ion-fab-button>
+       }
     </ion-fab-list>
   </ion-fab>
   <!-- Show result -->
-  <div *ngIf="qrResult" class="ion-padding">
-    <h2>QR Result (Game ID)</h2>
-    <p>{{ qrResult }}</p>
-  </div>
+  @if (qrResult){
+    <div class="ion-padding">
+      <h2>QR Result (Game ID)</h2>
+      <p>{{ qrResult }}</p>
+    </div>
+  }
 </ion-content>
